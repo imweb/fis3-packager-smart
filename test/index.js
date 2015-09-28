@@ -24,31 +24,6 @@ function release(opts, cb) {
     });
 }
 
-function hookSelf(opts) {
-    var key = 'modules.hook';
-    var origin = fis.get(key);
-
-    if (origin) {
-        origin = typeof origin === 'string' ?
-            origin.split(/\s*,\s*/) : (Array.isArray(origin) ? origin : [origin]);
-    } else {
-        origin = [];
-    }
-
-    origin.push(function(fis) {
-        var options = {};
-
-        _.assign(options, _self.defaultOptions);
-        _.assign(options, opts);
-
-        return _self.call(this, fis, options);
-    });
-
-    fis.set(key, origin);
-}
-
-
-
 describe('fis3-hook-lego findup & autoLoad', function() {
 
 
