@@ -37,6 +37,18 @@ require(['main'], function(main) {
 </script>
 ```
 
+或者主JS自执行，但是在html中通过require引入
+```
+// main.js
+init();
+// index.html
+<script>
+require('main');
+</script>
+// index.html中不要使用下面的方式引入脚本
+<script src='main.js'></script>
+```
+
 ### 配置
 ```
 fis.match('::package', {
