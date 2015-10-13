@@ -54,10 +54,13 @@ module.exports = function(ret, pack, settings, opt) {
         conf.ignoreDict[ignore] = 1;
     });
 
+    conf.idMaps = fis.get('idMaps') || {};
+
     Object.keys(files).forEach(function(subpath) {
         var file = files[subpath];
 
         if (file.isHtmlLike && !file.page) {
+
             file.page = new Page(file, ret, conf); // 实例化一个页面
         }
     });
