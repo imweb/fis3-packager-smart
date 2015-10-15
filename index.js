@@ -55,6 +55,7 @@ module.exports = function(ret, pack, settings, opt) {
     });
 
     conf.idMaps = fis.get('idMaps') || {};
+    Page.combineCache = {};
 
     Object.keys(files).forEach(function(subpath) {
         var file = files[subpath];
