@@ -23,6 +23,8 @@ var DEF_CONF = {
 
     lib: ['jquery', 'zepto', 'common', 'qqapi'], // 当做 library 使用，会单独打成一个文件
 
+    packToIgnore: [],
+
     ignore: [], // 不打包的模块
 
     libDict: {},
@@ -34,18 +36,37 @@ var DEF_CONF = {
 };
 
 
+/*
+* 平台问题
+* 1. common 一个包
+* 2. 主逻辑一个包
+* 3. 同步/异步问题
+ */
+
+
 var _ = fis.util;
 var Page = require('./lib/page');
 
 module.exports = function(ret, pack, settings, opt) {
-    if (!_.isEmpty(pack)) { // TODO 暂时不支持官方默认的手动配置打包
-        return;
-    }
 
 
+    var files = ret.src,
+        conf = _.assign({}, DEF_CONF, settings),
+        packTo = [];
+        
+    Object.keys(pack).forEach(function(key) {
+        packTo = packTo.concat(pack[key])
+    });
 
-    var files = ret.src;
-    var conf = _.assign({}, DEF_CONF, settings);
+    // subpath  => id
+    packTo.forEach(function(subpath, index) {
+        packTo[index] = files[subpath].id;
+    });
+
+    conf.packTo = packTo;
+
+
+    conf.pack = pack;
 
     (conf.lib || []).forEach(function(lib) {
         conf.libDict[lib] = 1;
@@ -59,9 +80,7 @@ module.exports = function(ret, pack, settings, opt) {
 
     Object.keys(files).forEach(function(subpath) {
         var file = files[subpath];
-
-        if (file.isHtmlLike && !file.page) {
-
+        if ((file.isHtmlLike || file.ext === '.vm') && !file.page) {
             file.page = new Page(file, ret, conf); // 实例化一个页面
         }
     });
