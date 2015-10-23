@@ -31,6 +31,10 @@ var DEF_CONF = {
 
     ignoreDict: {},
 
+    addPackTo: [],
+
+    cssAllInOne: false,
+
     cssInline: false
 
 };
