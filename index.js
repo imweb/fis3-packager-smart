@@ -1,8 +1,7 @@
-/**
- * 打包插件。用法：
- *
- */
-'use strict';
+
+
+/*global fis*/
+
 var DEF_CONF = {
     // 脚本占位符
     scriptPlaceHolder: '<!--SCRIPT_PLACEHOLDER-->',
@@ -35,16 +34,21 @@ var DEF_CONF = {
 
     cssAllInOne: false,
 
-    cssInline: false
+    cssInline: false,
 
+    // 其他模块有对此的引用忽略，直接丢到sourceMap
+    aliasMap: {
+        tvp: 'http://imgcache.gtimg.cn/tencentvideo_v1/tvp/js/tvp.player_v2_zepto.js'
+    },
+    packToIgnoreDict: {}
 };
 
 
 /*
-* 平台问题
-* 1. common 一个包
-* 2. 主逻辑一个包
-* 3. 同步/异步问题
+ * 平台问题
+ * 1. common 一个包
+ * 2. 主逻辑一个包
+ * 3. 同步/异步问题
  */
 
 
@@ -53,13 +57,12 @@ var Page = require('./lib/page');
 
 module.exports = function(ret, pack, settings, opt) {
 
-
     var files = ret.src,
         conf = _.assign({}, DEF_CONF, settings),
         packTo = [];
-        
+
     Object.keys(pack).forEach(function(key) {
-        packTo = packTo.concat(pack[key])
+        packTo = packTo.concat(pack[key]);
     });
 
     // subpath  => id
@@ -82,6 +85,10 @@ module.exports = function(ret, pack, settings, opt) {
     conf.idMaps = fis.get('idMaps') || {};
     Page.combineCache = {};
 
+
+    (conf.packToIgnore || []).forEach(function(f) {
+        conf.packToIgnoreDict[f] = 1;
+    });
     Object.keys(files).forEach(function(subpath) {
         var file = files[subpath];
         if ((file.isHtmlLike || file.ext === '.vm') && !file.page) {
