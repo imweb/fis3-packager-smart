@@ -66,15 +66,15 @@ fis.match('::package', {
 
         // 自动分析资源并在页面中载入
         autoLoad: true,
-
+        
         // 自动打包资源
         autoPack: false,
 
-        lib: ['jquery', 'zepto', 'common', 'qqapi'], // 当做 library 使用，会单独打成一个文件
-
         ignore: [], // 不打包的模块
-
-        cssInline: false
+        // 适合移动端场景
+        cssInline: false,
+        // css是否打包成一个文件，适合单页面应用
+        cssAllInOne: false 
     })
 });
 ```
