@@ -1,5 +1,3 @@
-
-
 /*global fis*/
 
 var DEF_CONF = {
@@ -20,7 +18,7 @@ var DEF_CONF = {
     // 自动打包资源
     autoPack: false,
 
-    lib: ['jquery', 'zepto', 'common', 'qqapi'], // 当做 library 使用，会单独打成一个文件
+    lib: [/*'jquery', 'zepto', 'common', 'qqapi'*/], // 当做 library 使用，会单独打成一个文件
 
     packToIgnore: [],
 
@@ -38,8 +36,9 @@ var DEF_CONF = {
 
     // 其他模块有对此的引用忽略，直接丢到sourceMap
     aliasMap: {
-        tvp: 'http://imgcache.gtimg.cn/tencentvideo_v1/tvp/js/tvp.player_v2_zepto.js'
+        // tvp: 'http://imgcache.gtimg.cn/tencentvideo_v1/tvp/js/tvp.player_v2_zepto.js'
     },
+    
     packToIgnoreDict: {}
 };
 
@@ -85,10 +84,18 @@ module.exports = function(ret, pack, settings, opt) {
     conf.idMaps = fis.get('idMaps') || {};
     Page.combineCache = {};
 
+    var urlmapping = ret.urlmapping = {};
+    Object.keys(files).forEach(function(subpath) {
+        var file = files[subpath];
+        if (file.release) {
+            urlmapping[file.getUrl()] = file;
+        }
+    });
 
     (conf.packToIgnore || []).forEach(function(f) {
         conf.packToIgnoreDict[f] = 1;
     });
+    
     Object.keys(files).forEach(function(subpath) {
         var file = files[subpath];
         if ((file.isHtmlLike || file.ext === '.vm') && !file.page) {
