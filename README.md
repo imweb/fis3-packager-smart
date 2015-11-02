@@ -63,18 +63,14 @@ fis.match('::package', {
         resourcePlaceHolder: '<!--RESOURCEMAP_PLACEHOLDER-->',
 
         output: 'pkg/${id}_min.js',
-
-        // 自动分析资源并在页面中载入
-        autoLoad: true,
-
         // 自动打包资源
         autoPack: false,
 
-        lib: ['jquery', 'zepto', 'common', 'qqapi'], // 当做 library 使用，会单独打成一个文件
-
         ignore: [], // 不打包的模块
-
-        cssInline: false
+        // css 内联到页面
+        cssInline: false,
+        // 所有css打包到一个文件中
+        cssAllInOne: false
     })
 });
 ```
