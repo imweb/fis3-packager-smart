@@ -6,6 +6,7 @@
 
 
 var path = require('path');
+var fs = require('fs');
 var fis = require('fis3');
 var _ = fis.util;
 var expect = require('chai').expect;
@@ -35,7 +36,7 @@ describe('fis3-hook-lego findup & autoLoad', function() {
 
         // fis.log.level = fis.log.L_ALL;
         _self.options = {
-            test: 0
+            cssInline: false
         };
         fis.match('::package', {
             packager: _self
@@ -139,14 +140,13 @@ describe('fis3-packager-smart pack', function() {
     });
 
     it('lego hook', function(done) {
-        fis.on('release:end', function(ret) {
-            expect(2).to.equal(2);
-        });
-
 
         release({
             unique: true
         }, function() {
+            expect(fs.existsSync(path.join(root, '../dist', 'pkg/common_min.js'))).to.be.true;
+            expect(fs.existsSync(path.join(root, '../dist', 'pkg/pages/index/main_min.js'))).to.be.true;
+            expect(fs.existsSync(path.join(root, '../dist', 'pkg/pages/index/main_async_min.js'))).to.be.true;
             done();
             fis.log.info('release complete');
         });

@@ -1,4 +1,7 @@
 /*global fis*/
+/*
+* 精简打包逻辑，适配特定的业务场景
+ */
 
 var DEF_CONF = {
     // 脚本占位符
@@ -12,43 +15,21 @@ var DEF_CONF = {
 
     output: 'pkg/${id}_min.js',
 
-    // 自动分析资源并在页面中载入
-    autoLoad: true,
-
     // 自动打包资源
     autoPack: false,
 
-    lib: [/*'jquery', 'zepto', 'common', 'qqapi'*/], // 当做 library 使用，会单独打成一个文件
-
-    packToIgnore: [],
-
     ignore: [], // 不打包的模块
-
-    libDict: {},
 
     ignoreDict: {},
 
-    addPackTo: [],
-
+    // css 打包成一个文件，适合单页面应用
     cssAllInOne: false,
-
+    // css 内嵌到html中
     cssInline: false,
 
-    // 其他模块有对此的引用忽略，直接丢到sourceMap
-    aliasMap: {
-        // tvp: 'http://imgcache.gtimg.cn/tencentvideo_v1/tvp/js/tvp.player_v2_zepto.js'
-    },
-    
-    packToIgnoreDict: {}
+    // common css，业务自行处理打包，其他打成一个page包
+    commonCssGlob: /\/?common\//
 };
-
-
-/*
- * 平台问题
- * 1. common 一个包
- * 2. 主逻辑一个包
- * 3. 同步/异步问题
- */
 
 
 var _ = fis.util;
@@ -56,27 +37,10 @@ var Page = require('./lib/page');
 
 module.exports = function(ret, pack, settings, opt) {
 
+
     var files = ret.src,
-        conf = _.assign({}, DEF_CONF, settings),
-        packTo = [];
+        conf = _.assign({}, DEF_CONF, settings);
 
-    Object.keys(pack).forEach(function(key) {
-        packTo = packTo.concat(pack[key]);
-    });
-
-    // subpath  => id
-    packTo.forEach(function(subpath, index) {
-        packTo[index] = files[subpath].id;
-    });
-
-    conf.packTo = packTo;
-
-
-    conf.pack = pack;
-
-    (conf.lib || []).forEach(function(lib) {
-        conf.libDict[lib] = 1;
-    });
     (conf.ignore || []).forEach(function(ignore) {
         conf.ignoreDict[ignore] = 1;
     });
@@ -92,10 +56,6 @@ module.exports = function(ret, pack, settings, opt) {
         }
     });
 
-    (conf.packToIgnore || []).forEach(function(f) {
-        conf.packToIgnoreDict[f] = 1;
-    });
-    
     Object.keys(files).forEach(function(subpath) {
         var file = files[subpath];
         if ((file.isHtmlLike || file.ext === '.vm') && !file.page) {
