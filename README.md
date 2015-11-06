@@ -63,28 +63,15 @@ fis.match('::package', {
         resourcePlaceHolder: '<!--RESOURCEMAP_PLACEHOLDER-->',
 
         output: 'pkg/${id}_min.js',
-<<<<<<< HEAD
-=======
-
-        // 自动分析资源并在页面中载入
-        autoLoad: true,
         
->>>>>>> dfa8987c020cfce548de45442ba56c5e841994b0
         // 自动打包资源
         autoPack: false,
 
         ignore: [], // 不打包的模块
-<<<<<<< HEAD
-        // css 内联到页面
-        cssInline: false,
-        // 所有css打包到一个文件中
-        cssAllInOne: false
-=======
         // 适合移动端场景
         cssInline: false,
         // css是否打包成一个文件，适合单页面应用
         cssAllInOne: false 
->>>>>>> dfa8987c020cfce548de45442ba56c5e841994b0
     })
 });
 ```
