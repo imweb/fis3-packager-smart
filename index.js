@@ -35,7 +35,7 @@ var DEF_CONF = {
 var _ = fis.util;
 var Page = require('./lib/page');
 
-module.exports = function(ret, pack, settings, opt) {
+module.exports = function(ret, pack, settings) {
 
 
     var files = ret.src,
@@ -58,7 +58,7 @@ module.exports = function(ret, pack, settings, opt) {
 
     Object.keys(files).forEach(function(subpath) {
         var file = files[subpath];
-        if ((file.isHtmlLike || file.ext === '.vm') && !file.page) {
+        if (file.isHtmlLike && !file.page) {
             file.page = new Page(file, ret, conf); // 实例化一个页面
         }
     });
