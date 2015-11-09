@@ -66,12 +66,17 @@ fis.match('::package', {
         
         // 自动打包资源
         autoPack: false,
-
-        ignore: [], // 不打包的模块
+        // 不打包的模块
+        ignore: [], 
+        
         // 适合移动端场景
         cssInline: false,
+        
         // css是否打包成一个文件，适合单页面应用
-        cssAllInOne: false 
+        cssAllInOne: false,
+        
+        // common css，业务自行处理打包，其他打成一个page包
+        commonCssGlob: /\/?common\//
     })
 });
 ```
