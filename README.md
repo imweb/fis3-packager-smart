@@ -74,7 +74,8 @@ fis.match('::package', {
         
         // css是否打包成一个文件，适合单页面应用
         cssAllInOne: false,
-        
+        // 页面js是否打包成一个文件，参考loader
+        jsAllInOne: false,
         // common css，业务自行处理打包，其他打成一个page包
         commonCssGlob: /\/?common\//
     })
