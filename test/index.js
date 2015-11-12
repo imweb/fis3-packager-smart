@@ -152,3 +152,66 @@ describe('fis3-packager-smart pack', function() {
         });
     });
 });
+
+
+// 所有js打包成一个文件
+describe('fis3-packager-smart pack - jsAllInOne', function() {
+
+    var dist = path.join(__dirname, 'allInOne');
+    beforeEach(function() {
+        
+
+        _.del(dist);
+
+        _self.options = {
+            autoPack: true,
+            cssInline: true,
+            jsAllInOne: true
+        };
+
+        fis.match('::package', {
+            packager: _self
+        });
+
+        fis.match('*', {
+            deploy: fis.plugin('local-deliver', {
+                to: dist
+            })
+        });
+
+        fis.hook('commonjs');
+
+
+        fis.match(/^\/modules\/(.+)\.js$/, {
+                isMod: true,
+                id: '$1'
+            })
+            .match(/^\/modules\/((?:[^\/]+\/)*)([^\/]+)\/\2\.(js)$/i, {
+                // isMod: true,
+                id: '$1$2'
+            })
+            .match(/^\/lego_modules\/(.+)\.js$/i, {
+                isMod: true,
+                id: '$1'
+            });
+
+        fis.match(/^\/(pages\/.+)\.js$/, {
+            isMod: true,
+            id: '$1'
+        });
+
+    });
+
+    it('lego hook', function(done) {
+
+        release({
+            unique: true
+        }, function() {
+            expect(fs.existsSync(path.join(dist, 'pkg/index.html_aio.js'))).to.be.true;
+            var content = fs.readFileSync(path.join(dist, 'index.html'));
+            expect(/<script\ssrc=\"\/pkg\/index\.html_aio\.js\"><\/script>/.test(content)).to.be.true;
+            done();
+            fis.log.info('release complete');
+        });
+    });
+});
