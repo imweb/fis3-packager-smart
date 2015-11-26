@@ -22,6 +22,10 @@ var DEF_CONF = {
 
     ignoreDict: {},
 
+    outputResourceMapToMainJs: false,
+    lib: [], // 指定公共库
+    libDict: {},
+
     // css 打包成一个文件，适合单页面应用
     cssAllInOne: false,
     // css 内嵌到html中
@@ -42,12 +46,15 @@ module.exports = function(ret, pack, settings) {
     var files = ret.src,
         conf = _.assign({}, DEF_CONF, settings);
 
-    (conf.ignore || []).forEach(function(ignore) {
-        conf.ignoreDict[ignore] = 1;
-    });
-
     conf.idMaps = fis.get('idMaps') || {};
     Page.combineCache = {};
+
+    (conf.ignore || []).forEach(function(ignore) {
+        conf.ignoreDict[conf.idMaps[ignore] || ignore] = 1;
+    });
+    (conf.lib || []).forEach(function(lib) {
+        conf.libDict[conf.idMaps[lib] || lib] = 1;
+    });
 
     var urlmapping = ret.urlmapping = {};
     Object.keys(files).forEach(function(subpath) {
