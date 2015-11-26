@@ -1,6 +1,6 @@
 {
   "name": "fis3-packager-smart",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "description": "fis3 智能打包，分析页面依赖，自动打包同步、异步文件",
   "keywords": [
     "lego",
