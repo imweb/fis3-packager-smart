@@ -23,6 +23,7 @@ var DEF_CONF = {
     ignoreDict: {},
 
     outputResourceMapToMainJs: false,
+
     lib: [], // 指定公共库
     libDict: {},
 
