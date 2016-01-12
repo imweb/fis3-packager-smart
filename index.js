@@ -32,9 +32,7 @@ var DEF_CONF = {
     // css 内嵌到html中
     cssInline: false,
     // 所有同步js打包成一个文件
-    jsAllInOne: false,
-    // common css，业务自行处理打包，其他打成一个page包
-    commonCssGlob: /\/?common\//
+    jsAllInOne: false
 };
 
 
