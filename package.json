@@ -1,6 +1,6 @@
 {
   "name": "fis3-packager-smart",
-  "version": "0.7.4",
+  "version": "0.7.6",
   "description": "fis3 智能打包，分析页面依赖，自动打包同步、异步文件",
   "keywords": [
     "lego",
@@ -14,12 +14,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jiangyuan/fis3-packager-smart"
+    "url": "git+https://github.com/jiangyuan/fis3-packager-smart.git"
   },
-  "author": {
-    "name": "jerojiang"
-  },
-  "license": "BSD",
+  "author": "jerojiang",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/jiangyuan/fis3-packager-smart/issues"
   },
@@ -29,5 +27,12 @@
     "fis3": "^3.2.0",
     "fis3-hook-commonjs": "^0.1.1",
     "fis3-hook-lego": "^0.2.0"
+  },
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha test/"
   }
 }
