@@ -65,6 +65,7 @@ module.exports = function(ret, pack, settings) {
 
     Object.keys(files).forEach(function(subpath) {
         var file = files[subpath];
+        // TODO: 这里可以对源做过滤，xxx.inline.html是不需要处理的
         if (file.isHtmlLike && !file.page) {
             file.page = new Page(file, ret, conf); // 实例化一个页面
         }

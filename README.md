@@ -17,8 +17,6 @@ require.async(['zepto', 'common', 'a'], function($, tools, main){
 ```
 最终会分析zepto的依赖，打成一个包，common和a类似。
 
-调试模式下，可以设置`autoPack: false`，表示不打包。这样依赖的文件会全部以script的方式插入到html中， css的处理类似。
-
 配置中有lib项配置，表示该库会单独打成一个包。
 
 ### html中的引用
@@ -64,8 +62,6 @@ fis.match('::package', {
 
         output: 'pkg/${id}_min.js',
         
-        // 自动打包资源
-        autoPack: false,
         // 不打包的模块
         ignore: [], 
         
@@ -82,11 +78,10 @@ fis.match('::package', {
 });
 ```
 
-上面的配置都是默认的，使用者可以完全不用管，只需要配置autoPack属性
+上面的配置都是默认的，使用者可以完全不用管。
 ```
 fis.match('::package', {
     packager: fis.plugin('smart', {
-        autoPack: true // false表示不打包，默认是false
     });
 });
 ```
